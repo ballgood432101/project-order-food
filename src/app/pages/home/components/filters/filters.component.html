@@ -1,0 +1,11 @@
+<mat-form-field appearance="fill">
+  <mat-label>Favorite food</mat-label>
+  <mat-select
+    [(ngModel)]="selectedCategory"
+    (ngModelChange)="onCategoryChange($event)"
+  >
+    <mat-option *ngFor="let category of categories" [value]="category">
+      {{ category }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

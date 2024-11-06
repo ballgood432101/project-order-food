@@ -1,0 +1,36 @@
+<div class="login-container">
+  <div class="card-container">
+    <h2>Login</h2>
+    <form>
+      <!-- <input type="text" name="username" placeholder="Username" required />
+      <input type="password" name="password" placeholder="Password" required /> -->
+
+      <form [formGroup]="myform" class="example-form">
+        <mat-form-field class="example-full-width">
+          <!-- <mat-label>Username</mat-label> -->
+          <input formControlName="username" matInput placeholder="Username" />
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <!-- <mat-lab el>Password</mat-lab> -->
+          <input
+            formControlName="password"
+            matInput
+            type="password"
+            placeholder="Password"
+          />
+        </mat-form-field>
+      </form>
+      <button (click)="login()" type="button" id="login-btn">Login</button>
+      <button
+        mat-raised-button
+        (click)="register()"
+        type="button"
+        id="login-btn"
+      >
+        Register
+      </button>
+      <!-- <a href="register.html">Register</a> -->
+    </form>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<form [formGroup]="form" class="example-form d-flex flex-column">
+  <mat-form-field class="example-full-width">
+    <input formControlName="food_name" matInput placeholder="Food name" />
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input formControlName="food_type" matInput placeholder="Food type" />
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input formControlName="price" matInput placeholder="Price" />
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input formControlName="image" matInput placeholder="Image" />
+  </mat-form-field>
+</form>
+
+<button mat-raised-button (click)="update()" type="button" id="login-btn">
+  Update
+</button>
+
+<button mat-raised-button (click)="close()" type="button" id="login-btn">
+  Close
+</button>

@@ -1,0 +1,34 @@
+<div class="register-container">
+  <div class="card-container">
+    <h2>Register</h2>
+    <form [formGroup]="myform" class="example-form">
+      <input
+        formControlName="username"
+        type="text"
+        name="username"
+        placeholder="Username"
+      />
+      <input
+        formControlName="email"
+        type="email"
+        name="email"
+        placeholder="Email"
+      />
+      <input
+        formControlName="password"
+        type="password"
+        name="password"
+        placeholder="Password"
+      />
+    </form>
+    <input
+      [(ngModel)]="confirmPassword"
+      type="password"
+      name="confirm_password"
+      placeholder="Confirm Password"
+      required
+    />
+    <button (click)="backToLogin()" type="button">Back to login</button>
+    <button (click)="register()" type="button">Register</button>
+  </div>
+</div>

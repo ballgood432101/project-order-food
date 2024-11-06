@@ -1,0 +1,6 @@
+<app-header
+  [cart]="cart"
+  [cart2]="cart2"
+  *ngIf="!isLoginOrRegisterPage"
+></app-header>
+<router-outlet></router-outlet>
