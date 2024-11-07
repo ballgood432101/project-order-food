@@ -27,10 +27,10 @@ export class CartComponent implements OnInit, OnDestroy {
   constructor(private cartService: CartService, private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.cartSubscription = this.cartService.cart.subscribe((_cart: Cart) => {
-      this.cart = _cart;
-      this.dataSource = _cart.items;
-    });
+    // this.cartSubscription = this.cartService.cart.subscribe((_cart: Cart) => {
+    //   this.cart = _cart;
+    //   this.dataSource = _cart.items;
+    // });
     this.cartService.cart2.subscribe((_cart: Cart2) => {
       this.cart2 = _cart;
       this.dataSource2 = _cart.items;
@@ -41,20 +41,20 @@ export class CartComponent implements OnInit, OnDestroy {
     return this.cartService.getTotal(items);
   }
 
-  onAddQuantity(item: CartItem): void {
-    this.cartService.addToCart(item);
+  onAddQuantity(item: CartItem2): void {
+    this.cartService.addToCart(item).subscribe(() => {});
   }
 
-  onRemoveFromCart(item: CartItem): void {
+  onRemoveFromCart(item: CartItem2): void {
     this.cartService.removeFromCart(item);
   }
 
-  onRemoveQuantity(item: CartItem): void {
-    this.cartService.removeQuantity(item);
+  onRemoveQuantity(item: CartItem2): void {
+    this.cartService.removeQuantity(item).subscribe(() => {});
   }
 
   onClearCart(): void {
-    this.cartService.clearCart();
+    this.cartService.clearCart().subscribe(() => {});
   }
 
   onCheckout(): void {

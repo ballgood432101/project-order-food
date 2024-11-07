@@ -15,11 +15,12 @@ export interface Cart2 {
 }
 
 export interface CartItem2 {
+  image: string;
   quantity: number;
   price: number;
   status: string;
   food_name: string;
   food_id: number;
-  user_id: number;
-  id: number;
+  // user_id: number;
+  id?: number;
 }

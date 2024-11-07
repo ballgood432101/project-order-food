@@ -32,7 +32,6 @@ export class EditProductModalComponent implements OnInit {
   update() {
     if (this.form.valid) {
       this.foodService.updateFood(this.form.value).subscribe((res) => {
-        console.log(res);
         this.diablogRef.close();
       });
     }

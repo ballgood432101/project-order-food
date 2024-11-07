@@ -20,7 +20,6 @@ export class RegisterComponent {
   }
 
   public register = () => {
-    console.log(this.myform.get('password')?.value);
     const isPasswordCorrect = this.checkIsConfirmPasswordCorrect(
       this.myform.get('password')?.value,
       this.confirmPassword
@@ -29,7 +28,6 @@ export class RegisterComponent {
     if (this.myform.valid && isPasswordCorrect) {
       let user = { ...this.myform.value, role: 1 };
       this.authService.register(user).subscribe((res) => {
-        console.log(res);
         this.router.navigate(['/login']);
       });
     }

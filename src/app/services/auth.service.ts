@@ -61,7 +61,6 @@ export class AuthService {
         tap((res) => {
           this.user = res;
           localStorage.setItem('user', JSON.stringify(this.user));
-          console.log(this.user);
         }),
         map((res) => res)
       );

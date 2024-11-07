@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { Product } from 'src/app/models/product.model';
 import { CartService } from 'src/app/services/cart.service';
 import { FoodService } from 'src/app/services/food.service';
@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   sort = 'desc';
   category: string | undefined;
   productsSubscription: Subscription | undefined;
+  subscription: Subscription = new Subscription();
 
   constructor(
     private cartService: CartService,
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getProducts();
+    this.getCart();
   }
 
   onColumnsCountChange(colsNum: number): void {
@@ -46,18 +48,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onShowCategory(newCategory: string): void {
-    console.log(newCategory);
     this.category = newCategory;
     this.getProducts();
   }
 
+  getCart(): void {
+    this.cartService.getCart().subscribe(() => {});
+  }
+
   getProducts(): void {
-    // this.productsSubscription = this.storeService
-    //   .getAllProducts(this.count, this.sort, this.category)
-    //   .subscribe((_products) => {
-    //     this.products = _products;
-    //   });
-    console.log(this.category);
     if (this.foodService.getFoodsFromService.length > 0) {
       this.products = this.foodService.getFoodsFromService;
       if (this.category) {
@@ -79,23 +78,30 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onAddToCart(product: Product): void {
-    this.cartService.addToCart({
-      // product: product.image,
-      // name: product.title,
-      // price: product.price,
-      // quantity: 1,
-      // id: product.id,
-      product: product.image,
-      name: product.food_name,
-      price: product.price,
-      quantity: 1,
-      id: product.food_id,
-    });
+    this.subscription.add(
+      this.cartService.cart2.pipe(take(1)).subscribe((cart: any) => {
+        const existingItem = cart.items.find(
+          (item: any) => item.food_id === product.food_id
+        );
+
+        const idForUpdate = existingItem ? existingItem.id : undefined;
+
+        this.cartService
+          .addToCart({
+            image: product.image,
+            food_name: product.food_name,
+            price: product.price,
+            quantity: 1,
+            food_id: product.food_id,
+            id: idForUpdate,
+            status: 'pending',
+          })
+          .subscribe(() => {});
+      })
+    );
   }
 
   ngOnDestroy(): void {
-    if (this.productsSubscription) {
-      this.productsSubscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
   }
 }

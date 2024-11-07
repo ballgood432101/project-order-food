@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cart, Cart2, CartItem, CartItem2 } from 'src/app/models/cart.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -11,8 +11,8 @@ import { CartService } from 'src/app/services/cart.service';
 export class HeaderComponent implements OnInit {
   private _cart: Cart = { items: [] };
   private _cart2: Cart2 = { items: [] };
+  public cart2: Cart2 = { items: [] };
   itemsQuantity = 0;
-  // loginLogoutTitle = "Login"
 
   public get loginLogoutTitle() {
     return this.authService.checkIsLoggedIn() ? 'Logout' : 'Login';
@@ -22,32 +22,6 @@ export class HeaderComponent implements OnInit {
     return this.authService.getUser?.username;
   }
 
-  @Input()
-  get cart(): Cart {
-    return this._cart;
-  }
-
-  set cart(cart: Cart) {
-    this._cart = cart;
-
-    this.itemsQuantity = cart.items
-      .map((item) => item.quantity)
-      .reduce((prev, curent) => prev + curent, 0);
-  }
-
-  @Input()
-  get cart2(): Cart2 {
-    return this._cart2;
-  }
-
-  set cart2(cart: Cart2) {
-    this._cart2 = cart;
-
-    this.itemsQuantity = cart.items
-      .map((item) => item.quantity)
-      .reduce((prev, curent) => prev + curent, 0);
-  }
-
   constructor(
     private cartService: CartService,
     private router: Router,
@@ -55,9 +29,16 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cartService.getCart().subscribe((res) => {
-      console.log(res);
+    this.cartService.cart2.subscribe((res) => {
+      this.cart2 = res;
+      this.itemsQuantity = this.cart2.items
+        .map((item) => item.quantity)
+        .reduce((prev, curent) => prev + curent, 0);
     });
+  }
+
+  getCartLength(items: CartItem2[]): number {
+    return this.cartService.getCartLength(items);
   }
 
   getTotal(items: CartItem2[]): number {
@@ -65,7 +46,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onClearCart(): void {
-    this.cartService.clearCart();
+    this.cartService.clearCart().subscribe(() => {});
   }
 
   loginOrLogout(): void {

@@ -21,9 +21,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cartService.cart.subscribe((_cart) => {
-      this.cart = _cart;
-    });
     this.cartService.cart2.subscribe((_cart) => {
       this.cart2 = _cart;
     });
