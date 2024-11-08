@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Cart, Cart2, CartItem, CartItem2 } from 'src/app/models/cart.model';
 import { CartService } from 'src/app/services/cart.service';
-// import { loadStripe } from '@stripe/stripe-js';
-import { Subscription } from 'rxjs';
+import { Subscription, switchMap } from 'rxjs';
+import { CheckoutService } from 'src/app/services/checkout.service';
+import { CheckoutCart } from 'src/app/models/checkout.model';
 
 @Component({
   selector: 'app-cart',
@@ -22,19 +22,23 @@ export class CartComponent implements OnInit, OnDestroy {
   ];
   dataSource: CartItem[] = [];
   dataSource2: CartItem2[] = [];
-  cartSubscription: Subscription | undefined;
+  subscription: Subscription = new Subscription();
 
-  constructor(private cartService: CartService, private http: HttpClient) {}
+  constructor(
+    private cartService: CartService,
+    private checkoutService: CheckoutService
+  ) {}
 
   ngOnInit(): void {
-    // this.cartSubscription = this.cartService.cart.subscribe((_cart: Cart) => {
-    //   this.cart = _cart;
-    //   this.dataSource = _cart.items;
-    // });
-    this.cartService.cart2.subscribe((_cart: Cart2) => {
-      this.cart2 = _cart;
-      this.dataSource2 = _cart.items;
-    });
+    this.subscription.add(
+      this.cartService
+        .getCart()
+        .pipe(switchMap(() => this.cartService.cart2))
+        .subscribe((_cart: Cart2) => {
+          this.cart2 = _cart;
+          this.dataSource2 = _cart.items;
+        })
+    );
   }
 
   getTotal(items: CartItem2[]): number {
@@ -58,21 +62,19 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   onCheckout(): void {
-    // this.http
-    //   .post('http://localhost:4242/checkout', {
-    //     items: this.cart.items,
-    //   })
-    //   .subscribe(async (res: any) => {
-    //     let stripe = await loadStripe('your token');
-    //     stripe?.redirectToCheckout({
-    //       sessionId: res.id,
-    //     });
-    //   });
+    const body: CheckoutCart = {
+      deliveryType: 'delivery',
+      paymentType: 'credit_card',
+      items: this.cart2.items,
+    };
+    this.subscription.add(
+      this.checkoutService.checkoutCart(body).subscribe((res) => {
+        this.cartService.getCart().subscribe(() => {});
+      })
+    );
   }
 
   ngOnDestroy() {
-    if (this.cartSubscription) {
-      this.cartSubscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
   }
 }

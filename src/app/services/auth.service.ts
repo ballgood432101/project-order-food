@@ -7,7 +7,7 @@ interface UserResponse {
   user_id: number;
   username: string;
   email: string;
-  role: string;
+  role: 1 | 2 | 3;
   access_token: string;
 }
 
@@ -28,15 +28,15 @@ export class AuthService {
   }
 
   public get getIsCustomer() {
-    return this.user?.role === '1';
+    return this.user?.role === 1;
   }
 
   public get getIsAdmin() {
-    return this.user?.role === '2';
+    return this.user?.role === 2;
   }
 
   public get getIsStaff() {
-    return this.user?.role === '3';
+    return this.user?.role === 3;
   }
 
   public get isLoginOrRegisterPage() {

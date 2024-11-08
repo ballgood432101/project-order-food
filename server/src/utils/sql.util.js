@@ -28,26 +28,6 @@ const checkRecordExists = (tableName, column, value) => {
   });
 };
 
-// const getRecords = (tableName, filter = null) => {
-//   return new Promise((resolve, reject) => {
-//     let query = `SELECT * FROM ${tableName}`;
-//     const params = [];
-
-//     if (filter) {
-//       query += " WHERE ?";
-//       params.push(filter);
-//     }
-
-//     pool.query(query, params, (err, results) => {
-//       if (err) {
-//         reject(err);
-//       } else {
-//         resolve(results);
-//       }
-//     });
-//   });
-// };
-
 const getRecords = (tableName, filter = null) => {
   return new Promise((resolve, reject) => {
     let query = `SELECT * FROM ${tableName}`;
@@ -100,20 +80,6 @@ const updateRecord = (tableName, record, id) => {
   });
 };
 
-// const deleteRecord = (tableName, id) => {
-//   const idData = extractId(tableName);
-//   return new Promise((resolve, reject) => {
-//     const query = `DELETE FROM ${tableName} WHERE ${idData} = ?`;
-
-//     pool.query(query, [id], (err, results) => {
-//       if (err) {
-//         reject(err);
-//       } else {
-//         resolve(results);
-//       }
-//     });
-//   });
-// };
 const deleteRecord = (tableName, filter = null) => {
   return new Promise((resolve, reject) => {
     let query = `DELETE FROM ${tableName}`;

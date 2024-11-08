@@ -23,7 +23,7 @@
       </div>
 
       <div class="flex justify-between">
-        <span class="text-red-400">{{ product.price }} ฿</span>
+        <span class="text-red-400">{{ product.price | currency : "THB" }}</span>
 
         <div class="flex">
           <div *ngIf="hasPermissionToEditFood">

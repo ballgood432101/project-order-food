@@ -8,6 +8,7 @@ const port = process.env.PORT || 3000;
 const userRouter = require("./src/routes/user.route");
 const foodRouter = require("./src/routes/food.route");
 const cartRouter = require("./src/routes/cart.route");
+const checkoutRouter = require("./src/routes/checkout.route");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 app.use("/api/user", userRouter);
 app.use("/api/food", foodRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/checkout", checkoutRouter);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

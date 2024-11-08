@@ -18,7 +18,9 @@
     </ng-container>
     <ng-container matColumnDef="price">
       <th mat-header-cell *matHeaderCellDef>Price</th>
-      <td mat-cell *matCellDef="let element">{{ element.price | currency }}</td>
+      <td mat-cell *matCellDef="let element">
+        {{ element.price | currency : "THB" }}
+      </td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
     <ng-container matColumnDef="quantity">
@@ -37,7 +39,7 @@
     <ng-container matColumnDef="total">
       <th mat-header-cell *matHeaderCellDef>Total</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.quantity * element.price | currency }}
+        {{ element.quantity * element.price | currency : "THB" }}
       </td>
       <td mat-footer-cell *matFooterCellDef>
         <span class="font-bold py-5 block">{{
