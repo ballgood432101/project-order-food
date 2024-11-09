@@ -39,6 +39,8 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { EditProductModalComponent } from './pages/home/components/edit-product-modal/edit-product-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { HistoryComponent } from './pages/history/history.component';
+import { HistoryDetailsComponent } from './pages/history/component/history-details/history-details.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,8 @@ import { MatSelectModule } from '@angular/material/select';
     LoginComponent,
     RegisterComponent,
     EditProductModalComponent,
+    HistoryComponent,
+    HistoryDetailsComponent,
   ],
   imports: [
     BrowserModule,

@@ -22,26 +22,6 @@ const getUserCart = async (req, res) => {
   return res.status(200).json(data);
 };
 
-// const addFoodInCart = async (req, res) => {
-//   const result = verifyAccessToken(req);
-
-//   if (!result.success) {
-//     return res.status(403).json({ error: result.error });
-//   }
-
-//   const { food_id, status, quantity } = req.body;
-//   const user_id = result.data.user_id;
-
-//   const cart = {
-//     food_id,
-//     status,
-//     user_id,
-//     quantity,
-//   };
-//   await insertRecord("carts", cart);
-//   res.status(201).json({ message: "Add food in cart successfully!" });
-// };
-
 const addFoodInCart = async (req, res) => {
   const result = verifyAccessToken(req);
 
@@ -79,19 +59,6 @@ const addFoodInCart = async (req, res) => {
   }
 };
 
-// const cancelFoodInCart = async (req, res) => {
-//   const result = verifyAccessToken(req);
-
-//   if (!result.success) {
-//     return res.status(403).json({ error: result.error });
-//   }
-
-//   const id = req.params.id;
-
-//   await deleteRecord("carts", { id: id });
-//   res.status(200).json({ message: "Remove food in cart successfully!" });
-// };
-
 const cancelFoodInCart = async (req, res) => {
   const result = verifyAccessToken(req);
 
@@ -101,11 +68,10 @@ const cancelFoodInCart = async (req, res) => {
 
   const id = req.params.id;
 
-  const { food_id } = req.body; // Quantity to be removed
+  const { food_id } = req.body;
   const user_id = result.data.user_id;
 
   try {
-    // Check if the item exists in the cart
     const existingCartItem = await getRecords("carts", { user_id, food_id });
 
     if (existingCartItem.length < 1) {
@@ -114,13 +80,11 @@ const cancelFoodInCart = async (req, res) => {
 
     const updatedQuantity = existingCartItem[0].quantity - 1;
     if (updatedQuantity > 0) {
-      // If quantity is still positive, update it
       await updateRecord("carts", { quantity: updatedQuantity }, id);
       res
         .status(200)
         .json({ message: "Reduced food quantity in cart successfully!" });
     } else {
-      // If quantity is zero or negative, delete the row
       await deleteRecord("carts", { user_id, food_id });
       res
         .status(200)

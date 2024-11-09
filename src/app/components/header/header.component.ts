@@ -22,6 +22,9 @@ export class HeaderComponent implements OnInit {
   public get username() {
     return this.authService.getUser?.username;
   }
+  // public get isShowHistoryForStaffAndAdmin() {
+  //   return !this.authService.getIsCustomer && this.authService.isLoggedIn;
+  // }
 
   constructor(
     private cartService: CartService,

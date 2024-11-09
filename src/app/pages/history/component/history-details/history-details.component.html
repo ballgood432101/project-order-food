@@ -1,0 +1,68 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">Order Details</h2>
+
+  <div mat-dialog-content>
+    <!-- Order Summary Section -->
+    <section class="order-summary">
+      <div class="order-info">
+        <p><strong>Order ID:</strong> {{ data.order_id }}</p>
+        <p><strong>Username:</strong> {{ data.username }}</p>
+        <p>
+          <strong>Status: </strong>
+          <span [ngClass]="getStatusClass(data.status)">{{
+            data.status | titlecase
+          }}</span>
+        </p>
+        <p>
+          <strong>Delivery Type:</strong> {{ data.delivery_type | titlecase }}
+        </p>
+        <p>
+          <strong>Payment Type:</strong> {{ data.payment_type | titlecase }}
+        </p>
+        <p><strong>Discount:</strong> {{ data.discount | currency : "THB" }}</p>
+        <p>
+          <strong>Total Amount:</strong>
+          {{ data.total_amount | currency : "THB" }}
+        </p>
+        <p>
+          <strong>Order Created At:</strong>
+          {{ data.order_created_at | date : "medium" }}
+        </p>
+      </div>
+    </section>
+
+    <!-- Items List Section -->
+    <h3 class="items-title">Items Ordered</h3>
+    <div *ngFor="let item of data.items" class="order-item">
+      <img [src]="item.image" alt="{{ item.food_name }}" class="item-image" />
+      <div class="item-details">
+        <p>
+          <strong>{{ item.food_name }}</strong>
+        </p>
+        <p>Type: {{ item.food_type }}</p>
+        <p>Quantity: {{ item.quantity }}</p>
+        <p>Price: ${{ item.price }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions align="end">
+    <button
+      *ngIf="!isCustomer"
+      mat-button
+      mat-raised-button
+      color="primary"
+      (click)="onComplete()"
+    >
+      Complete order
+    </button>
+    <button
+      mat-button
+      mat-stroked-button
+      color="primary"
+      (click)="closeDialog()"
+    >
+      Close
+    </button>
+  </div>
+</div>
