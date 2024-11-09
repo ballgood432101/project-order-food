@@ -55,7 +55,6 @@ const getAllOrders = async (req, res) => {
   try {
     // Execute the query with or without the user_id filter
     const params = result.data.role === 1 ? [user_id] : [];
-    console.log(params);
     const results = await db.query(query, params);
 
     // Process the results to structure the orders with items

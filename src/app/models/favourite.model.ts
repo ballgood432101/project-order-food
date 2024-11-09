@@ -1,9 +1,8 @@
-export interface Product {
-  id?: number;
+export interface FavouriteModel {
+  favourite_id: number;
   food_id: number;
   food_name: string;
   food_type: string;
   price: number;
   image: string;
-  favourite_id?: number;
 }

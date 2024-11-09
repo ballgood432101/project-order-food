@@ -7,6 +7,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { StaffOrAdminGuard } from './guards/staff-or-admin.guard';
 import { HistoryComponent } from './pages/history/history.component';
+import { FavourtiesComponent } from './pages/favourties/favourties.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -30,6 +31,11 @@ const routes: Routes = [
   {
     path: 'history',
     component: HistoryComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'favourites',
+    component: FavourtiesComponent,
     canActivate: [AuthGuard],
   },
 ];

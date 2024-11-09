@@ -3,7 +3,7 @@ const router = express.Router();
 const checkoutController = require("../controllers/checkout.controller");
 
 /* GET programming languages. */
-// router.get("/", checkoutController.getAllFoods);
+router.get("/", checkoutController.prepareQR);
 
 // /* POST programming language */
 router.post("/", checkoutController.checkoutCart);

@@ -41,6 +41,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { HistoryComponent } from './pages/history/history.component';
 import { HistoryDetailsComponent } from './pages/history/component/history-details/history-details.component';
+import { FavourtiesComponent } from './pages/favourties/favourties.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { HistoryDetailsComponent } from './pages/history/component/history-detai
     EditProductModalComponent,
     HistoryComponent,
     HistoryDetailsComponent,
+    FavourtiesComponent,
   ],
   imports: [
     BrowserModule,

@@ -26,6 +26,18 @@
         <span class="text-red-400">{{ product.price | currency : "THB" }}</span>
 
         <div class="flex">
+          <button
+            *ngIf="isLoggedIn"
+            (click)="onFavourite(product.food_id, product.favourite_id)"
+          >
+            <mat-icon
+              [ngClass]="
+                !!product.favourite_id ? 'text-red-500' : 'text-gray-500'
+              "
+              >favorite</mat-icon
+            >
+          </button>
+
           <div *ngIf="hasPermissionToEditFood">
             <button (click)="onEdit()">
               <mat-icon class="text-gray-500">edit</mat-icon>

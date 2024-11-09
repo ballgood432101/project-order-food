@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, take } from 'rxjs';
+import { FavouriteModel } from 'src/app/models/favourite.model';
 import { Product } from 'src/app/models/product.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
+import { FavouriteService } from 'src/app/services/favourite.service';
 import { FoodService } from 'src/app/services/food.service';
 import { StoreService } from 'src/app/services/store.service';
 
@@ -21,12 +23,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   category: string | undefined;
   productsSubscription: Subscription | undefined;
   subscription: Subscription = new Subscription();
+  private favourites: Product[] = [];
 
   constructor(
     private cartService: CartService,
     private storeService: StoreService,
     private foodService: FoodService,
-    private authService: AuthService
+    private authService: AuthService,
+    private favouriteService: FavouriteService
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +38,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.authService.isLoggedIn) {
       this.getCart();
     }
+    this.favouriteService.favourites.subscribe((res) => {
+      this.favourites = res;
+      this.mapFavouriteId();
+    });
   }
 
   onColumnsCountChange(colsNum: number): void {
@@ -63,22 +71,42 @@ export class HomeComponent implements OnInit, OnDestroy {
   getProducts(): void {
     if (this.foodService.getFoodsFromService.length > 0) {
       this.products = this.foodService.getFoodsFromService;
+
       if (this.category) {
-        this.products = this.foodService.getFoodsFromService?.filter(
+        this.products = this.products.filter(
           (result) => result.food_type === this.category
         );
       }
+
+      this.mapFavouriteId();
       return;
     }
 
     this.foodService.getFoods().subscribe((res) => {
       this.products = res;
+
       if (this.category) {
-        this.products = this.products?.filter(
+        this.products = this.products.filter(
           (result) => result.food_type === this.category
         );
       }
+
+      this.mapFavouriteId();
     });
+  }
+
+  private mapFavouriteId(): void {
+    if (this.products && this.authService.isLoggedIn) {
+      this.products = this.products.map((product) => {
+        const favourite = this.favourites.find(
+          (fav) => fav.food_id === product.food_id
+        );
+        return {
+          ...product,
+          favourite_id: favourite ? favourite.favourite_id : undefined,
+        };
+      });
+    }
   }
 
   onAddToCart(product: Product): void {

@@ -10,15 +10,7 @@ const foodRouter = require("./src/routes/food.route");
 const cartRouter = require("./src/routes/cart.route");
 const checkoutRouter = require("./src/routes/checkout.route");
 const orderRouter = require("./src/routes/order.route");
-
-// const thPromptpayQr = require("th-promptpay-qr");
-
-// let promptpayCode = thPromptpayQr.getPromptpayCode("0917057319", 300);
-// console.log(promptpayCode);
-
-// thPromptpayQr.getQRCodePNG("0917057319", 1, (err, png) => {
-//   console.log(png);
-// });
+const favoriteRouter = require("./src/routes/favorite.route");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -40,6 +32,7 @@ app.use("/api/food", foodRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/checkout", checkoutRouter);
 app.use("/api/order", orderRouter);
+app.use("/api/favorite", favoriteRouter);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

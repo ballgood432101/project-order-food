@@ -7,6 +7,27 @@ const {
 } = require("../utils/sql.util");
 const db = require("../services/db.service");
 
+const thPromptpayQr = require("th-promptpay-qr");
+
+// let promptpayCode = thPromptpayQr.getPromptpayCode("0917057319", 300);
+// console.log(promptpayCode);
+
+// thPromptpayQr.getQRCodePNG("0917057319", 1, (err, png) => {
+//   console.log(png);
+// });
+
+const prepareQR = async (req, res) => {
+  const result = verifyAccessToken(req);
+
+  if (!result.success) {
+    return res.status(403).json({ error: result.error });
+  }
+  const userId = result.data.user_id;
+  thPromptpayQr.getQRCodePNG("0917057319", 1, (err, png) => {
+    return res.status(200).json({ qrcode: png });
+  });
+};
+
 const checkoutCart = async (req, res) => {
   const result = verifyAccessToken(req);
 
@@ -87,4 +108,5 @@ const checkoutCart = async (req, res) => {
 
 module.exports = {
   checkoutCart,
+  prepareQR,
 };
