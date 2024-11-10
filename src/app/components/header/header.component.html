@@ -1,15 +1,23 @@
-<mat-toolbar class="justify-between max-w-7xl mx-auto border-x">
-  <div class="d-flex">
-    <a routerLink="home" class="mr-2">Project</a>
-    <a routerLink="history" class="mr-2">History</a>
-    <a routerLink="favourites">Favourites</a>
+<mat-toolbar class="header-toolbar max-w-7xl mx-auto border-x p-4">
+  <!-- Navigation Links -->
+  <div class="nav-links flex items-center gap-4">
+    <a routerLink="home" class="nav-link">Home</a>
+    <a routerLink="history" class="nav-link">History</a>
+    <a routerLink="favourites" class="nav-link">Favourites</a>
   </div>
 
-  <div>
-    <span class="mr-2" *ngIf="username">Welcome {{ username }}</span>
-    <button mat-raised-button (click)="loginOrLogout()">
+  <!-- User Info and Actions -->
+  <div class="user-actions flex items-center gap-4">
+    <span *ngIf="username" class="welcome-message"
+      >Welcome, {{ username }}</span
+    >
+
+    <!-- Login/Logout Button -->
+    <button mat-raised-button color="primary" (click)="loginOrLogout()">
       {{ loginLogoutTitle }}
     </button>
+
+    <!-- Shopping Cart Button with Menu -->
     <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="username">
       <mat-icon
         [matBadge]="itemsQuantity"
@@ -18,44 +26,49 @@
         >shopping_cart</mat-icon
       >
     </button>
-  </div>
-  <mat-menu #menu="matMenu">
-    <div class="p-3 divide-y divide-solid">
-      <div class="pb-3 flex justify-between">
-        <span class="mr-16">{{ getCartLength(cart2.items) }} items</span>
-        <a routerLink="cart">View Cart</a>
-      </div>
-      <div *ngIf="cart2.items.length" class="py-3">
-        <div
-          *ngFor="let item of cart2.items"
-          class="flex justify-between font-light mb-2"
-        >
-          {{ item.food_name }} x {{ item.quantity }}
-          <span class="font-bold not-italic">{{
-            item.price | currency : "THB"
+
+    <!-- Shopping Cart Dropdown Menu -->
+    <mat-menu #menu="matMenu">
+      <div class="cart-menu p-4 divide-y divide-gray-200">
+        <!-- Cart Summary -->
+        <div class="cart-header flex justify-between items-center pb-3">
+          <span>{{ getCartLength(cart2.items) }} items</span>
+          <a routerLink="cart" class="text-blue-600 hover:underline"
+            >View Cart</a
+          >
+        </div>
+
+        <!-- Cart Items List -->
+        <div *ngIf="cart2.items.length" class="cart-items py-3">
+          <div
+            *ngFor="let item of cart2.items"
+            class="cart-item flex justify-between mb-2"
+          >
+            <span>{{ item.food_name }} x {{ item.quantity }}</span>
+            <span class="font-semibold">{{
+              item.price | currency : "THB"
+            }}</span>
+          </div>
+        </div>
+
+        <!-- Cart Total -->
+        <div class="cart-total flex justify-between py-3">
+          <span>Total:</span>
+          <span class="font-bold">{{
+            getTotal(cart2.items) | currency : "THB"
           }}</span>
         </div>
+
+        <!-- Cart Actions -->
+        <div class="cart-actions flex justify-between pt-3 gap-2">
+          <button (click)="onClearCart()" class="clear-cart-btn">
+            <mat-icon>remove_shopping_cart</mat-icon>
+          </button>
+          <button routerLink="cart" class="checkout-btn">
+            <mat-icon>shopping_cart_checkout</mat-icon>
+          </button>
+        </div>
       </div>
-      <div class="flex justify-between py-3 font-light">
-        Total:
-        <span class="font-bold not-italic">{{
-          getTotal(cart2.items) | currency : "THB"
-        }}</span>
-      </div>
-      <div class="pt-3 flex justify-between">
-        <button
-          (click)="onClearCart()"
-          class="bg-rose-600 text-white rounded-full w-9 h-9"
-        >
-          <mat-icon>remove_shopping_cart</mat-icon>
-        </button>
-        <button
-          routerLink="cart"
-          class="bg-green-600 text-white rounded-full w-9 h-9"
-        >
-          <mat-icon>shopping_cart_checkout</mat-icon>
-        </button>
-      </div>
-    </div>
-  </mat-menu>
+    </mat-menu>
+  </div>
 </mat-toolbar>

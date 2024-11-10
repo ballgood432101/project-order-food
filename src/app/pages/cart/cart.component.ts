@@ -4,6 +4,8 @@ import { CartService } from 'src/app/services/cart.service';
 import { Subscription, switchMap } from 'rxjs';
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { CheckoutCart } from 'src/app/models/checkout.model';
+import { MatDialog } from '@angular/material/dialog';
+import { QrCodeModalComponent } from './component/qr-code-modal/qr-code-modal.component';
 
 @Component({
   selector: 'app-cart',
@@ -23,10 +25,12 @@ export class CartComponent implements OnInit, OnDestroy {
   dataSource: CartItem[] = [];
   dataSource2: CartItem2[] = [];
   subscription: Subscription = new Subscription();
+  paymentType: string = 'qr_code';
 
   constructor(
     private cartService: CartService,
-    private checkoutService: CheckoutService
+    private checkoutService: CheckoutService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -64,9 +68,34 @@ export class CartComponent implements OnInit, OnDestroy {
   onCheckout(): void {
     const body: CheckoutCart = {
       deliveryType: 'delivery',
-      paymentType: 'credit_card',
+      paymentType: this.paymentType,
       items: this.cart2.items,
     };
+    if ((this.paymentType = 'qr_code')) {
+      const qrBody: { total_amount: number } = {
+        total_amount: this.getTotal(this.cart2.items),
+      };
+      this.subscription.add(
+        this.checkoutService.getQrCode2(qrBody).subscribe((res) => {
+          this.dialog
+            .open(QrCodeModalComponent, {
+              data: res,
+              disableClose: true,
+            })
+            .afterClosed()
+            .subscribe((result) => {
+              if (result === 'success') {
+                this.checkoutCart(body);
+              }
+            });
+        })
+      );
+    } else {
+      this.checkoutCart(body);
+    }
+  }
+
+  private checkoutCart(body: CheckoutCart) {
     this.subscription.add(
       this.checkoutService.checkoutCart(body).subscribe((res) => {
         this.cartService.getCart().subscribe(() => {});

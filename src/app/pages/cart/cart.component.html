@@ -34,6 +34,20 @@
           <mat-icon>add</mat-icon>
         </button>
       </td>
+      <td mat-footer-cell *matFooterCellDef>
+        <mat-radio-group
+          aria-labelledby="example-radio-group-label"
+          class="example-radio-group"
+          [(ngModel)]="paymentType"
+        >
+          <mat-radio-button class="example-radio-button mr-2" value="qr_code">
+            QR code
+          </mat-radio-button>
+          <mat-radio-button class="example-radio-button" value="cash">
+            Cash
+          </mat-radio-button>
+        </mat-radio-group>
+      </td>
       <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>
     <ng-container matColumnDef="total">

@@ -15,4 +15,15 @@ export class CheckoutService {
       body
     );
   };
+  public getQrCode = (): Observable<any> => {
+    return this.httpClient.get<{ qrcode: string }>(
+      `http://localhost:3000/api/checkout/`
+    );
+  };
+  public getQrCode2 = (body: { total_amount: number }): Observable<any> => {
+    return this.httpClient.post<{ qrcode: string }>(
+      `http://localhost:3000/api/checkout/qrcode`,
+      body
+    );
+  };
 }

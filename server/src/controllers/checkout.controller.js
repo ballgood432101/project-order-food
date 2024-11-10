@@ -28,6 +28,23 @@ const prepareQR = async (req, res) => {
   });
 };
 
+const prepareQR2 = async (req, res) => {
+  const result = verifyAccessToken(req);
+
+  if (!result.success) {
+    return res.status(403).json({ error: result.error });
+  }
+  const { total_amount } = req.body;
+
+  if (!total_amount) {
+    return res.status(422).json({ error: "Invalid amount" });
+  }
+
+  thPromptpayQr.getQRCodePNG("0917057319", total_amount, (err, png) => {
+    return res.status(200).json({ qrcode: png });
+  });
+};
+
 const checkoutCart = async (req, res) => {
   const result = verifyAccessToken(req);
 
@@ -57,7 +74,7 @@ const checkoutCart = async (req, res) => {
     `;
     const orderResult = await db.query(insertOrderQuery, [
       userId,
-      "in_process",
+      "pending",
       deliveryType,
       paymentType,
       discount || 0,
@@ -109,4 +126,5 @@ const checkoutCart = async (req, res) => {
 module.exports = {
   checkoutCart,
   prepareQR,
+  prepareQR2,
 };

@@ -19,6 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { ProductsHeaderComponent } from './pages/home/components/products-header/products-header.component';
 import { ProductBoxComponent } from './pages/home/components/product-box/product-box.component';
@@ -42,6 +43,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { HistoryComponent } from './pages/history/history.component';
 import { HistoryDetailsComponent } from './pages/history/component/history-details/history-details.component';
 import { FavourtiesComponent } from './pages/favourties/favourties.component';
+import { QrCodeModalComponent } from './pages/cart/component/qr-code-modal/qr-code-modal.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { FavourtiesComponent } from './pages/favourties/favourties.component';
     HistoryComponent,
     HistoryDetailsComponent,
     FavourtiesComponent,
+    QrCodeModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,6 +87,7 @@ import { FavourtiesComponent } from './pages/favourties/favourties.component';
     FormsModule,
     MatDialogModule,
     MatSelectModule,
+    MatRadioModule,
   ],
   providers: [
     CartService,

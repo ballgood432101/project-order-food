@@ -1,33 +1,32 @@
-<mat-card *ngIf="product" [ngClass]="{ 'text-center': !fullWidthMode }">
-  <div [ngClass]="{ flex: fullWidthMode }">
+<mat-card
+  *ngIf="product"
+  class="product-card"
+  [ngClass]="{ 'full-width': fullWidthMode }"
+>
+  <div class="card-content">
+    <!-- Product Image -->
     <img
-      class="mb-1 mx-auto"
-      [ngClass]="{ 'h-[200px]': !fullWidthMode, 'h-[360px]': fullWidthMode }"
       [src]="product.image"
+      alt="{{ product.food_name }}"
+      class="product-image"
     />
-    <div
-      class="w-full"
-      [ngClass]="{ 'px-8 flex flex-col justify-between': fullWidthMode }"
-    >
-      <div>
-        <h5>{{ product.food_type }}</h5>
-        <p
-          class="truncate hover:whitespace-normal"
-          [ngClass]="{ truncate: !fullWidthMode }"
-        >
-          {{ product.food_name }}
-        </p>
-        <p *ngIf="fullWidthMode">
-          {{ product.price }}
-        </p>
-      </div>
 
-      <div class="flex justify-between">
-        <span class="text-red-400">{{ product.price | currency : "THB" }}</span>
+    <!-- Product Details -->
+    <div class="product-details">
+      <h5 class="food-type">{{ product.food_type }}</h5>
+      <p class="food-name" [ngClass]="{ truncate: !fullWidthMode }">
+        {{ product.food_name }}
+      </p>
 
-        <div class="flex">
+      <!-- Price and Actions -->
+      <div class="product-footer">
+        <span class="price">{{ product.price | currency : "THB" }}</span>
+
+        <div class="actions">
+          <!-- Favorite Button -->
           <button
             *ngIf="isLoggedIn"
+            class="action-button"
             (click)="onFavourite(product.food_id, product.favourite_id)"
           >
             <mat-icon
@@ -38,12 +37,17 @@
             >
           </button>
 
-          <div *ngIf="hasPermissionToEditFood">
-            <button (click)="onEdit()">
-              <mat-icon class="text-gray-500">edit</mat-icon>
-            </button>
-          </div>
-          <button (click)="onAddToCart()">
+          <!-- Edit Button -->
+          <button
+            *ngIf="hasPermissionToEditFood"
+            class="action-button"
+            (click)="onEdit()"
+          >
+            <mat-icon class="text-gray-500">edit</mat-icon>
+          </button>
+
+          <!-- Add to Cart Button -->
+          <button class="action-button" (click)="onAddToCart()">
             <mat-icon class="text-gray-500">shopping_cart</mat-icon>
           </button>
         </div>

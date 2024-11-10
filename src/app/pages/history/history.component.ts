@@ -48,6 +48,10 @@ export class HistoryComponent implements OnInit {
     this.getHistoryOrder();
   }
 
+  getStatusClass(status: string): string {
+    return `status-${status.replace('_', '-').toLowerCase()}`;
+  }
+
   getHistoryOrder() {
     this.historyService.getAllHistoryOrder().subscribe((res) => {
       this.dataSource = res;

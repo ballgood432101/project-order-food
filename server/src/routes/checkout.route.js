@@ -5,6 +5,8 @@ const checkoutController = require("../controllers/checkout.controller");
 /* GET programming languages. */
 router.get("/", checkoutController.prepareQR);
 
+router.post("/qrcode", checkoutController.prepareQR2);
+
 // /* POST programming language */
 router.post("/", checkoutController.checkoutCart);
 

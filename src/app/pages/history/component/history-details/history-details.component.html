@@ -9,15 +9,17 @@
         <p><strong>Username:</strong> {{ data.username }}</p>
         <p>
           <strong>Status: </strong>
-          <span [ngClass]="getStatusClass(data.status)">{{
-            data.status | titlecase
-          }}</span>
+          <span [ngClass]="getStatusClass(data.status)">
+            {{ data.status.replace("_", " ") | titlecase }}
+          </span>
         </p>
         <p>
-          <strong>Delivery Type:</strong> {{ data.delivery_type | titlecase }}
+          <strong>Delivery Type:</strong>
+          {{ data.delivery_type.replace("_", " ") | titlecase }}
         </p>
         <p>
-          <strong>Payment Type:</strong> {{ data.payment_type | titlecase }}
+          <strong>Payment Type:</strong>
+          {{ data.payment_type.replace("_", " ") | titlecase }}
         </p>
         <p><strong>Discount:</strong> {{ data.discount | currency : "THB" }}</p>
         <p>
@@ -36,32 +38,41 @@
     <div *ngFor="let item of data.items" class="order-item">
       <img [src]="item.image" alt="{{ item.food_name }}" class="item-image" />
       <div class="item-details">
-        <p>
-          <strong>{{ item.food_name }}</strong>
-        </p>
+        <h4>{{ item.food_name }}</h4>
         <p>Type: {{ item.food_type }}</p>
         <p>Quantity: {{ item.quantity }}</p>
-        <p>Price: ${{ item.price }}</p>
+        <p>Price: {{ item.price | currency : "USD" }}</p>
       </div>
     </div>
   </div>
 
+  <!-- Action Buttons -->
   <div mat-dialog-actions align="end">
     <button
       *ngIf="!isCustomer"
-      mat-button
       mat-raised-button
-      color="primary"
-      (click)="onComplete()"
+      color="accent"
+      (click)="onProgressOrder()"
     >
-      Complete order
+      In Progress
     </button>
     <button
-      mat-button
-      mat-stroked-button
+      *ngIf="!isCustomer"
+      mat-raised-button
       color="primary"
-      (click)="closeDialog()"
+      (click)="onCompleteOrder()"
     >
+      Complete
+    </button>
+    <button
+      *ngIf="isAllowCancelOrder"
+      mat-raised-button
+      color="warn"
+      (click)="onCancelOrder()"
+    >
+      Cancel
+    </button>
+    <button mat-stroked-button color="basic" (click)="closeDialog()">
       Close
     </button>
   </div>

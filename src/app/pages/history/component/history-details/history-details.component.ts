@@ -17,6 +17,10 @@ export class HistoryDetailsComponent implements OnInit {
     return this.authService.getIsCustomer;
   }
 
+  public get isAllowCancelOrder(): boolean {
+    return !this.isCustomer || this.data.status === 'pending';
+  }
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: HistoryOrder,
     private dialogRef: MatDialogRef<HistoryDetailsComponent>,
@@ -31,13 +35,33 @@ export class HistoryDetailsComponent implements OnInit {
   }
 
   getStatusClass(status: string): string {
-    return `status-${status.replace(' ', '_').toLowerCase()}`;
+    return `status-${status.replace('_', '-').toLowerCase()}`;
   }
 
-  onComplete() {
+  onProgressOrder() {
     const body: UpdateOrderStatusModel = {
       order_id: this.data.order_id,
-      status: 'complete',
+      status: 'in_progress',
+    };
+    this.orderService.updateOrderStatus(body).subscribe((res) => {
+      this.dialogRef.close('success');
+    });
+  }
+
+  onCompleteOrder() {
+    const body: UpdateOrderStatusModel = {
+      order_id: this.data.order_id,
+      status: 'completed',
+    };
+    this.orderService.updateOrderStatus(body).subscribe((res) => {
+      this.dialogRef.close('success');
+    });
+  }
+
+  onCancelOrder() {
+    const body: UpdateOrderStatusModel = {
+      order_id: this.data.order_id,
+      status: 'canceled',
     };
     this.orderService.updateOrderStatus(body).subscribe((res) => {
       this.dialogRef.close('success');

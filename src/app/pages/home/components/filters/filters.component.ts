@@ -24,12 +24,13 @@ export class FiltersComponent implements OnInit, OnDestroy {
     this.categoriesSubscription = this.foodService
       .getFoods()
       .subscribe((res) => {
-        const mapDataToCatagory = res
+        const mapDataToCategory = res
           .map((result: any) => result.food_type)
           .filter((value: any, index: number, self: any) => {
             return self.indexOf(value) === index;
           });
-        this.categories = mapDataToCatagory;
+        mapDataToCategory.unshift('All');
+        this.categories = mapDataToCategory;
       });
   }
 

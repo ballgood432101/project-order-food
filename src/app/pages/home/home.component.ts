@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onShowCategory(newCategory: string): void {
     this.category = newCategory;
+
     this.getProducts();
   }
 
@@ -68,31 +69,66 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.cartService.getCart().subscribe(() => {});
   }
 
+  // getProducts(): void {
+  //   if (this.foodService.getFoodsFromService.length > 0) {
+  //     this.products = this.foodService.getFoodsFromService;
+  //     if (this.category === 'All') {
+  //       return;
+  //     }
+
+  //     if (this.category) {
+  //       this.products = this.products.filter(
+  //         (result) => result.food_type === this.category
+  //       );
+  //     }
+
+  //     this.mapFavouriteId();
+  //     return;
+  //   }
+
+  //   this.foodService.getFoods().subscribe((res) => {
+  //     this.products = res;
+  //     if (this.category === 'All') {
+  //       return;
+  //     }
+
+  //     if (this.category) {
+  //       this.products = this.products.filter(
+  //         (result) => result.food_type === this.category
+  //       );
+  //     }
+
+  //     this.mapFavouriteId();
+  //   });
+  // }
+
   getProducts(): void {
     if (this.foodService.getFoodsFromService.length > 0) {
       this.products = this.foodService.getFoodsFromService;
-
-      if (this.category) {
-        this.products = this.products.filter(
-          (result) => result.food_type === this.category
-        );
-      }
-
-      this.mapFavouriteId();
+      this.applyCategoryFilterAndMap();
       return;
     }
 
     this.foodService.getFoods().subscribe((res) => {
       this.products = res;
-
-      if (this.category) {
-        this.products = this.products.filter(
-          (result) => result.food_type === this.category
-        );
-      }
-
-      this.mapFavouriteId();
+      this.applyCategoryFilterAndMap();
     });
+  }
+
+  private applyCategoryFilterAndMap(): void {
+    if (this.category === 'All') {
+      this.mapFavouriteId();
+      return;
+    }
+
+    if (this.category && this.products) {
+      this.products = this.products.filter(
+        (result) => result.food_type === this.category
+      );
+    }
+
+    // Map favorite IDs
+    this.mapFavouriteId();
   }
 
   private mapFavouriteId(): void {
