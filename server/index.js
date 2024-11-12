@@ -5,6 +5,8 @@ const dotenv = require("dotenv");
 const app = express();
 const port = process.env.PORT || 3000;
 
+dotenv.config();
+
 const userRouter = require("./src/routes/user.route");
 const foodRouter = require("./src/routes/food.route");
 const cartRouter = require("./src/routes/cart.route");
@@ -13,8 +15,6 @@ const orderRouter = require("./src/routes/order.route");
 const favoriteRouter = require("./src/routes/favorite.route");
 const reviewRouter = require("./src/routes/review.route");
 const promotionRouter = require("./src/routes/promotion.route");
-
-dotenv.config();
 
 app.use(cors());
 app.use(bodyParser.json());
