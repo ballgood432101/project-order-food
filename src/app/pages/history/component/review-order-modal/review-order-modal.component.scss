@@ -1,0 +1,40 @@
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rating-category {
+  margin-bottom: 20px;
+}
+
+.rating-stars {
+  display: flex;
+}
+
+.star {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.star.filled {
+  color: gold;
+}
+
+.review-text textarea {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cancel-btn,
+.submit-btn {
+  margin-left: 10px;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+}

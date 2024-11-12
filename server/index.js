@@ -2,15 +2,19 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
-dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
+
 const userRouter = require("./src/routes/user.route");
 const foodRouter = require("./src/routes/food.route");
 const cartRouter = require("./src/routes/cart.route");
 const checkoutRouter = require("./src/routes/checkout.route");
 const orderRouter = require("./src/routes/order.route");
 const favoriteRouter = require("./src/routes/favorite.route");
+const reviewRouter = require("./src/routes/review.route");
+const promotionRouter = require("./src/routes/promotion.route");
+
+dotenv.config();
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -26,15 +30,15 @@ app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
 
-// app.use("/programming-languages", programmingLanguagesRouter);
 app.use("/api/user", userRouter);
 app.use("/api/food", foodRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/checkout", checkoutRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/favorite", favoriteRouter);
+app.use("/api/review", reviewRouter);
+app.use("/api/promotion", promotionRouter);
 
-/* Error handler middleware */
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   console.error(err.message, err.stack);

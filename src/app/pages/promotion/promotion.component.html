@@ -1,0 +1,65 @@
+<mat-card class="max-w-7xl mx-auto">
+  <div class="flex align-center justify-between mb-4">
+    <h2 class="text-xl font-bold">Promotions List</h2>
+    <button
+      *ngIf="!isCustomer"
+      mat-raised-button
+      (click)="openPromotionModal()"
+    >
+      Add promotion
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="promotions" class="mat-elevation-z8 w-full">
+    <!-- Promotion ID Column -->
+    <ng-container matColumnDef="promotion_id">
+      <th mat-header-cell *matHeaderCellDef>Promotion ID</th>
+      <td mat-cell *matCellDef="let promotion">{{ promotion.promotion_id }}</td>
+    </ng-container>
+
+    <!-- Promotion Code Column -->
+    <ng-container matColumnDef="promotion_code">
+      <th mat-header-cell *matHeaderCellDef>Promotion Code</th>
+      <td mat-cell *matCellDef="let promotion">
+        {{ promotion.promotion_code }}
+      </td>
+    </ng-container>
+
+    <!-- Discount Column -->
+    <ng-container matColumnDef="discount">
+      <th mat-header-cell *matHeaderCellDef>Discount</th>
+      <td mat-cell *matCellDef="let promotion">
+        {{ promotion.discount | currency : "THB" }}
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let promotion">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="editPromotion(promotion)"
+        >
+          Edit
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="deletePromotion(promotion.promotion_id)"
+        >
+          Delete
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-card *ngIf="promotions.length === 0" class="text-center py-5">
+    <p>No promotions available.</p>
+  </mat-card>
+</mat-card>

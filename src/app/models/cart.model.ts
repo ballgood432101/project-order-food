@@ -22,6 +22,5 @@ export interface CartItem2 {
   food_name: string;
   food_id: number;
   food_type?: string;
-  // user_id: number;
   id?: number;
 }

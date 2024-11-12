@@ -1,0 +1,26 @@
+<form [formGroup]="form" class="example-form d-flex flex-column">
+  <mat-form-field class="example-full-width">
+    <input
+      formControlName="promotion_code"
+      matInput
+      placeholder="Promotion Code"
+    />
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input formControlName="discount" matInput placeholder="Discount" />
+  </mat-form-field>
+</form>
+
+<button
+  mat-raised-button
+  (click)="createOrUpdate()"
+  type="button"
+  id="login-btn"
+>
+  {{ addOrEditButtonTitle }}
+</button>
+
+<button mat-raised-button (click)="close(false)" type="button" id="login-btn">
+  Close
+</button>

@@ -1,0 +1,45 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <h2>Submit Your Review</h2>
+    <button class="close-button" (click)="onClose(false)">✕</button>
+  </div>
+
+  <div class="modal-body">
+    <!-- Rating Categories -->
+    <div
+      class="rating-category"
+      *ngFor="let category of ratingCategories; let i = index"
+    >
+      <label>{{ category.label }}</label>
+      <div class="rating-stars">
+        <i
+          *ngFor="let star of [1, 2, 3, 4, 5]; let j = index"
+          class="star"
+          [class.filled]="category.rating >= j + 1"
+          (click)="setRating(i, j + 1)"
+        >
+          ★
+        </i>
+      </div>
+    </div>
+
+    <!-- Review Text Area -->
+    <!-- <div class="review-text"> -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label for="review">Your Comments:</mat-label>
+      <textarea
+        matInput
+        id="review"
+        rows="4"
+        placeholder="Write your thoughts here..."
+        [(ngModel)]="reviewText"
+      ></textarea>
+    </mat-form-field>
+    <!-- </div> -->
+  </div>
+
+  <div class="modal-footer">
+    <button class="cancel-btn" (click)="onClose(false)">Cancel</button>
+    <button class="submit-btn" (click)="submitReview()">Submit</button>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="max-w-7xl mx-auto">
+  <div *ngFor="let review of reviews" class="review-card">
+    <!-- Order Details -->
+    <div class="order-info">
+      <h3>Order #{{ review.order_id }}</h3>
+      <p>Reviewed on: {{ review.created_at | date : "medium" }}</p>
+    </div>
+
+    <!-- Ratings Section -->
+    <div class="rating-category">
+      <label>Quality:</label>
+      <div class="rating-stars">
+        <i
+          *ngFor="let star of [1, 2, 3, 4, 5]"
+          class="star"
+          [class.filled]="star <= review.quality"
+          >★</i
+        >
+      </div>
+    </div>
+
+    <div class="rating-category">
+      <label>Delivery:</label>
+      <div class="rating-stars">
+        <i
+          *ngFor="let star of [1, 2, 3, 4, 5]"
+          class="star"
+          [class.filled]="star <= review.delivery"
+          >★</i
+        >
+      </div>
+    </div>
+
+    <div class="rating-category">
+      <label>Value:</label>
+      <div class="rating-stars">
+        <i
+          *ngFor="let star of [1, 2, 3, 4, 5]"
+          class="star"
+          [class.filled]="star <= review.valuable"
+          >★</i
+        >
+      </div>
+    </div>
+
+    <div class="rating-category">
+      <label>Service:</label>
+      <div class="rating-stars">
+        <i
+          *ngFor="let star of [1, 2, 3, 4, 5]"
+          class="star"
+          [class.filled]="star <= review.service"
+          >★</i
+        >
+      </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div *ngIf="review.other_comments" class="comments">
+      <label>Comments:</label>
+      <p>{{ review.other_comments }}</p>
+    </div>
+  </div>
+</div>

@@ -46,41 +46,6 @@ async function login(login) {
   }
 }
 
-// // Update an existing user
-// async function updateUser() {
-//   app.put("/api/users/:id", (req, res) => {
-//     const { username, email } = req.body;
-//     const userId = req.params.id;
-//     db.query(
-//       "UPDATE users SET username = ?, email = ? WHERE id = ?",
-//       [username, email, userId],
-//       (err, result) => {
-//         if (err) {
-//           console.error("Error executing query: " + err.stack);
-//           res.status(400).send("Error updating user");
-//           return;
-//         }
-//         res.send("User updated successfully");
-//       }
-//     );
-//   });
-// }
-
-// // Delete a user
-// async function deleteUser() {
-//   app.delete("/api/users/:id", (req, res) => {
-//     const userId = req.params.id;
-//     db.query("DELETE FROM users WHERE id = ?", [userId], (err, result) => {
-//       if (err) {
-//         console.error("Error executing query: " + err.stack);
-//         res.status(400).send("Error deleting user");
-//         return;
-//       }
-//       res.send("User deleted successfully");
-//     });
-//   });
-// }
-
 module.exports = {
   getAllusers,
   createUser,

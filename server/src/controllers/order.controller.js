@@ -1,10 +1,4 @@
 const { verifyAccessToken } = require("../utils/jwt.util");
-const {
-  insertRecord,
-  updateRecord,
-  deleteRecord,
-  getRecords,
-} = require("../utils/sql.util");
 const db = require("../services/db.service");
 
 const getAllOrders = async (req, res) => {
@@ -21,6 +15,7 @@ const getAllOrders = async (req, res) => {
   let query = `
     SELECT 
       o.order_id,
+      o.is_reviewed,
       o.user_id,
       u.username,
       o.status,
@@ -68,6 +63,8 @@ const getAllOrders = async (req, res) => {
         price: row.price,
       };
 
+      const isReviewed = row.is_reviewed === 1;
+
       // Find if the order already exists in the accumulator
       const existingOrder = acc.find(
         (order) => order.order_id === row.order_id
@@ -85,9 +82,10 @@ const getAllOrders = async (req, res) => {
           delivery_type: row.delivery_type,
           payment_type: row.payment_type,
           discount: row.discount,
-          total_amount: row.total_amount,
+          total_amount: row.total_amount - row.discount,
           order_created_at: row.order_created_at,
           order_updated_at: row.order_updated_at,
+          is_reviewed: isReviewed,
           items: [item],
         });
       }

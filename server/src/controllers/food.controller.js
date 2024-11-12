@@ -8,7 +8,6 @@ const {
 const db = require("../services/db.service");
 
 const getAllFoods = async (req, res) => {
-  // const data = await db.query("SELECT * FROM foods");
   const data = await getRecords("foods");
 
   return res.status(200).json(data);

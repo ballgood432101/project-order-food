@@ -1,0 +1,51 @@
+.review-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+}
+
+.order-info {
+  margin-bottom: 12px;
+}
+
+.rating-category {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.rating-category label {
+  width: 80px;
+  font-weight: bold;
+}
+
+.rating-stars {
+  display: flex;
+}
+
+.star {
+  font-size: 24px;
+  cursor: default;
+  color: #ccc;
+}
+
+.star.filled {
+  color: gold;
+}
+
+.comments {
+  margin-top: 16px;
+}
+
+.comments label {
+  font-weight: bold;
+}
+
+.comments p {
+  margin-top: 8px;
+  padding: 8px;
+  background-color: #e8e8e8;
+  border-radius: 4px;
+}

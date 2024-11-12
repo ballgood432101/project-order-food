@@ -28,7 +28,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { CartService } from './services/cart.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { StoreService } from './services/store.service';
 import { LoginComponent } from './pages/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -44,6 +43,10 @@ import { HistoryComponent } from './pages/history/history.component';
 import { HistoryDetailsComponent } from './pages/history/component/history-details/history-details.component';
 import { FavourtiesComponent } from './pages/favourties/favourties.component';
 import { QrCodeModalComponent } from './pages/cart/component/qr-code-modal/qr-code-modal.component';
+import { ReviewOrderModalComponent } from './pages/history/component/review-order-modal/review-order-modal.component';
+import { ReviewComponent } from './pages/review/review.component';
+import { PromotionComponent } from './pages/promotion/promotion.component';
+import { AddOrEditPromotionComponent } from './pages/promotion/component/add-or-edit-promotion/add-or-edit-promotion.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +64,10 @@ import { QrCodeModalComponent } from './pages/cart/component/qr-code-modal/qr-co
     HistoryDetailsComponent,
     FavourtiesComponent,
     QrCodeModalComponent,
+    ReviewOrderModalComponent,
+    ReviewComponent,
+    PromotionComponent,
+    AddOrEditPromotionComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,7 +98,6 @@ import { QrCodeModalComponent } from './pages/cart/component/qr-code-modal/qr-co
   ],
   providers: [
     CartService,
-    StoreService,
     AuthService,
     FoodService,
     {

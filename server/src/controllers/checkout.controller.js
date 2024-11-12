@@ -1,20 +1,8 @@
 const { verifyAccessToken } = require("../utils/jwt.util");
-const {
-  insertRecord,
-  updateRecord,
-  deleteRecord,
-  getRecords,
-} = require("../utils/sql.util");
+const { deleteRecord } = require("../utils/sql.util");
 const db = require("../services/db.service");
 
 const thPromptpayQr = require("th-promptpay-qr");
-
-// let promptpayCode = thPromptpayQr.getPromptpayCode("0917057319", 300);
-// console.log(promptpayCode);
-
-// thPromptpayQr.getQRCodePNG("0917057319", 1, (err, png) => {
-//   console.log(png);
-// });
 
 const prepareQR = async (req, res) => {
   const result = verifyAccessToken(req);
@@ -82,7 +70,6 @@ const checkoutCart = async (req, res) => {
     ]);
 
     const orderId = orderResult.insertId;
-    console.log("Generated order ID:", orderId);
 
     const orderItemsData = items.map((item) => [
       orderId,

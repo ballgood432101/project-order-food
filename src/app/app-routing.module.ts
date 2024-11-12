@@ -8,6 +8,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { StaffOrAdminGuard } from './guards/staff-or-admin.guard';
 import { HistoryComponent } from './pages/history/history.component';
 import { FavourtiesComponent } from './pages/favourties/favourties.component';
+import { ReviewComponent } from './pages/review/review.component';
+import { PromotionComponent } from './pages/promotion/promotion.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -37,6 +39,14 @@ const routes: Routes = [
     path: 'favourites',
     component: FavourtiesComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'reviews',
+    component: ReviewComponent,
+  },
+  {
+    path: 'promotions',
+    component: PromotionComponent,
   },
 ];
 

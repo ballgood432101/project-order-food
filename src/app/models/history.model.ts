@@ -12,4 +12,5 @@ export interface HistoryOrder {
   order_created_at: string;
   order_updated_at: string;
   items: CartItem2[];
+  is_reviewed: boolean;
 }

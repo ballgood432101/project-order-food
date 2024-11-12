@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { HistoryOrder } from 'src/app/models/history.model';
 import { OrderService } from 'src/app/services/order.service';
 import { HistoryDetailsComponent } from './component/history-details/history-details.component';
+import { ReviewOrderModalComponent } from './component/review-order-modal/review-order-modal.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 export interface PeriodicElement {
   name: string;
@@ -33,14 +35,15 @@ export class HistoryComponent implements OnInit {
   displayedColumns: string[] = [
     'order_id',
     'username',
-    'quantity',
     'total_amount',
     'status',
     'action',
   ];
   dataSource: HistoryOrder[] = [];
+
   constructor(
     private historyService: OrderService,
+    private authService: AuthService,
     private dialog: MatDialog
   ) {}
 
@@ -58,6 +61,14 @@ export class HistoryComponent implements OnInit {
     });
   }
 
+  isAbleToReview(data: HistoryOrder): boolean {
+    return (
+      !data.is_reviewed &&
+      data.status === 'completed' &&
+      this.authService.getIsCustomer
+    );
+  }
+
   onOpenDetails(data: HistoryOrder) {
     this.dialog
       .open(HistoryDetailsComponent, { data })
@@ -66,6 +77,15 @@ export class HistoryComponent implements OnInit {
         if (result === 'success') {
           this.getHistoryOrder();
         }
+      });
+  }
+
+  onOpenReviewModal(data: HistoryOrder) {
+    this.dialog
+      .open(ReviewOrderModalComponent, { data })
+      .afterClosed()
+      .subscribe((result) => {
+        this.getHistoryOrder();
       });
   }
 }

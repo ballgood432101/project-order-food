@@ -6,10 +6,12 @@ import { CheckoutService } from 'src/app/services/checkout.service';
 import { CheckoutCart } from 'src/app/models/checkout.model';
 import { MatDialog } from '@angular/material/dialog';
 import { QrCodeModalComponent } from './component/qr-code-modal/qr-code-modal.component';
+import { PromotionService } from 'src/app/services/promotion.service';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
+  styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit, OnDestroy {
   cart: Cart = { items: [] };
@@ -26,11 +28,14 @@ export class CartComponent implements OnInit, OnDestroy {
   dataSource2: CartItem2[] = [];
   subscription: Subscription = new Subscription();
   paymentType: string = 'qr_code';
+  promotionCode: string = '';
+  discount: number = 0;
 
   constructor(
     private cartService: CartService,
     private checkoutService: CheckoutService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private promotionService: PromotionService
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +52,10 @@ export class CartComponent implements OnInit, OnDestroy {
 
   getTotal(items: CartItem2[]): number {
     return this.cartService.getTotal(items);
+  }
+
+  getTotalWithDiscount(items: CartItem2[]): number {
+    return this.cartService.getTotal(items) - this.discount;
   }
 
   onAddQuantity(item: CartItem2): void {
@@ -69,11 +78,12 @@ export class CartComponent implements OnInit, OnDestroy {
     const body: CheckoutCart = {
       deliveryType: 'delivery',
       paymentType: this.paymentType,
+      discount: this.discount,
       items: this.cart2.items,
     };
     if ((this.paymentType = 'qr_code')) {
       const qrBody: { total_amount: number } = {
-        total_amount: this.getTotal(this.cart2.items),
+        total_amount: this.getTotalWithDiscount(this.cart2.items),
       };
       this.subscription.add(
         this.checkoutService.getQrCode2(qrBody).subscribe((res) => {
@@ -93,6 +103,20 @@ export class CartComponent implements OnInit, OnDestroy {
     } else {
       this.checkoutCart(body);
     }
+  }
+
+  applyPromotion(): void {
+    this.promotionService
+      .validatePromotion({ promotion_code: this.promotionCode })
+      .subscribe((response) => {
+        if (response.valid) {
+          this.discount = response.discount;
+          alert('Promotion applied successfully!');
+        } else {
+          alert('Invalid promotion code');
+          this.discount = 0;
+        }
+      });
   }
 
   private checkoutCart(body: CheckoutCart) {

@@ -21,7 +21,18 @@
       <td mat-cell *matCellDef="let element">
         {{ element.price | currency : "THB" }}
       </td>
-      <td mat-footer-cell *matFooterCellDef></td>
+      <td mat-footer-cell *matFooterCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Enter Promotion Code"
+            [(ngModel)]="promotionCode"
+          />
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="applyPromotion()">
+          Apply
+        </button>
+      </td>
     </ng-container>
     <ng-container matColumnDef="quantity">
       <th mat-header-cell *matHeaderCellDef>Quantity</th>
@@ -56,8 +67,13 @@
         {{ element.quantity * element.price | currency : "THB" }}
       </td>
       <td mat-footer-cell *matFooterCellDef>
-        <span class="font-bold py-5 block">{{
-          getTotal(cart2.items) | currency : "THB"
+        <span
+          class="font-bold block"
+          [ngClass]="{ 'has-discount': discount != 0 }"
+          >{{ getTotal(cart2.items) | currency : "THB" }}</span
+        >
+        <span *ngIf="discount != 0" class="font-bold block">{{
+          getTotalWithDiscount(cart2.items) | currency : "THB"
         }}</span>
       </td>
     </ng-container>

@@ -18,7 +18,6 @@ export class FavourtiesComponent implements OnInit {
 
   ngOnInit(): void {
     this.favouriteService.favourites.subscribe((res) => {
-      console.log(res);
       this.favouriteProducts = res;
     });
   }

@@ -1,12 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, take } from 'rxjs';
-import { FavouriteModel } from 'src/app/models/favourite.model';
 import { Product } from 'src/app/models/product.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 import { FavouriteService } from 'src/app/services/favourite.service';
 import { FoodService } from 'src/app/services/food.service';
-import { StoreService } from 'src/app/services/store.service';
 
 const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
 
@@ -27,7 +25,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private cartService: CartService,
-    private storeService: StoreService,
     private foodService: FoodService,
     private authService: AuthService,
     private favouriteService: FavouriteService
@@ -68,39 +65,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   getCart(): void {
     this.cartService.getCart().subscribe(() => {});
   }
-
-  // getProducts(): void {
-  //   if (this.foodService.getFoodsFromService.length > 0) {
-  //     this.products = this.foodService.getFoodsFromService;
-  //     if (this.category === 'All') {
-  //       return;
-  //     }
-
-  //     if (this.category) {
-  //       this.products = this.products.filter(
-  //         (result) => result.food_type === this.category
-  //       );
-  //     }
-
-  //     this.mapFavouriteId();
-  //     return;
-  //   }
-
-  //   this.foodService.getFoods().subscribe((res) => {
-  //     this.products = res;
-  //     if (this.category === 'All') {
-  //       return;
-  //     }
-
-  //     if (this.category) {
-  //       this.products = this.products.filter(
-  //         (result) => result.food_type === this.category
-  //       );
-  //     }
-
-  //     this.mapFavouriteId();
-  //   });
-  // }
 
   getProducts(): void {
     if (this.foodService.getFoodsFromService.length > 0) {
